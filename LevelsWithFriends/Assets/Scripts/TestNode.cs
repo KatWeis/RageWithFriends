@@ -75,4 +75,53 @@ public class TestNode : MonoBehaviour
 			}
 		}
 	}
+
+	public GameObject GetContainingBox(Vector3 mousePos)
+	{
+		// is the mouse in the AABB
+		if (mousePos.x < transform.position.x + (width / 2f) && mousePos.x > transform.position.x - (width / 2f)) 
+		{
+			if (mousePos.y > transform.position.y - (height / 2f) && mousePos.y < transform.position.y + (height / 2f)) 
+			{
+				// inside this box, check for divisions
+				if (divisions.Count > 0) 
+				{
+					// loop through each division
+					for (int i = 0; i < divisions.Count; i++) 
+					{
+						GameObject result = divisions [i].GetComponent<TestNode> ().GetContainingBox (mousePos);
+
+						if (result != null) {
+							return result;
+						}
+					}
+				}
+
+				// no divisions or doesn't fit
+				return gameObject;
+			}
+		}
+
+		// doesn't fit
+		return null;
+	}
+
+	public List<GameObject> GetAllBoxes()
+	{
+		List<GameObject> boxes = new List<GameObject> ();
+
+		// get the subdivisions
+		if (divisions.Count > 0) 
+		{
+			for (int i = 0; i < divisions.Count; i++)
+			{
+				boxes.AddRange (divisions [i].GetComponent<TestNode> ().GetAllBoxes ());
+			}
+		}
+
+		// add this box
+		boxes.Add(gameObject);
+
+		return boxes;
+	}
 }
