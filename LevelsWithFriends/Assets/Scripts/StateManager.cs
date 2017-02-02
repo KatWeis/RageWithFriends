@@ -14,11 +14,21 @@ public class StateManager : MonoBehaviour
         GameOver
     }
 
+    public enum Tool
+    {
+        Place,
+        Remove,
+        ColorChanger,
+        Move,
+        None
+    }
+
     //fields
     public GameState gameState = GameState.MainMenu; //set default to be main menu ---public for now, likely change later
+    public Tool currentTool = Tool.None; //set default to none ---public for now, likely change later
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
 		
 	}
@@ -28,6 +38,15 @@ public class StateManager : MonoBehaviour
     {
         //update the gamestate based on input
         UpdateState();
+        //only allow switching of tools in build mode
+        if(gameState == GameState.Build)
+        {
+            UpdateTool();
+        }
+        else //ensure no tools are equipped when in other modes
+        {
+            currentTool = Tool.None;
+        }
 	}
 
     private void UpdateState()
@@ -108,5 +127,31 @@ public class StateManager : MonoBehaviour
                 }
                 break;
         }
+    }
+
+    private void UpdateTool()
+    {
+        //allow the user to switch to different tools with hotkeys -- will change later, this is just for time being
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            currentTool = Tool.Move;
+        }
+        else if(Input.GetKeyDown(KeyCode.C))
+        {
+            currentTool = Tool.ColorChanger;
+        }
+        else if (Input.GetKeyDown(KeyCode.V))
+        {
+            currentTool = Tool.Place;
+        }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            currentTool = Tool.Remove;
+        }
+    }
+
+    public void OnGUI()
+    {
+        //may be using canvas UI stuff instead...
     }
 }
