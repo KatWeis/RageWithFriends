@@ -15,12 +15,20 @@ public class TestNode : MonoBehaviour
 	// prefab
 	GameObject prefab;
 
+	// does this tile have something on it?
+	bool filled;
+
 	// Properties
 	public float Width { get { return width; } }
 
 	public float Height { get { return height; } }
 
 	public List<GameObject> Divisions { get { return divisions; } }
+
+	public bool Filled {
+		get { return filled; } 
+		set { filled = value; }
+	}
 
 	// Use this for initialization
 	void Start () 
@@ -38,6 +46,8 @@ public class TestNode : MonoBehaviour
 		prefab = gameObject;
 
 		divisions = new List<GameObject> (4);
+
+		filled = false;
 	}
 	
 	// Update is called once per frame
