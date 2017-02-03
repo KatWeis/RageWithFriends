@@ -9,7 +9,8 @@ public enum GameState
     Test,
     Pause,
     Play,
-    GameOver
+    GameOver,
+    WinGame
 }
 
 public enum Tool
@@ -27,10 +28,17 @@ public enum Tool
 public class StateManager : MonoBehaviour
 {
 
-
     //fields
     private GameState gameState; 
     private Tool currentTool;
+
+    //ref to ui for each state
+    public GameObject build;
+    public GameObject play;
+    public GameObject menu;
+    public GameObject pause;
+    public GameObject lose;
+    public GameObject win;
 
     //properties
     public GameState GState
@@ -57,6 +65,10 @@ public class StateManager : MonoBehaviour
 
         //update the gamestate based on input
         UpdateState();
+
+        //make sure that the UI is correct for the given gamestate
+        ToggleUI();
+
         //only allow switching of tools in build mode
         if(gameState == GameState.Build)
         {
@@ -159,11 +171,11 @@ public class StateManager : MonoBehaviour
         {
             currentTool = Tool.ColorChanger;
         }
-        else if (Input.GetKeyDown(KeyCode.V))
+        else if (Input.GetKeyDown(KeyCode.P))
         {
             currentTool = Tool.PlacePlat;
         }
-        else if (Input.GetKeyDown(KeyCode.Z))
+        else if (Input.GetKeyDown(KeyCode.R))
         {
             currentTool = Tool.Remove;
         }
@@ -202,7 +214,37 @@ public class StateManager : MonoBehaviour
         {
             case 1: gameState = GameState.Play;
                 break;
+            case 2: gameState = GameState.Build;
+                break;
             
+        }
+    }
+
+    private void ToggleUI()
+    {
+        //set all to false
+        build.SetActive(false);
+        play.SetActive(false);
+        menu.SetActive(false);
+        pause.SetActive(false);
+        lose.SetActive(false);
+        win.SetActive(false);
+
+        //turn on the one corresponding to the current gamestate
+        switch (gameState)
+        {
+            case GameState.Play: play.SetActive(true);
+                break;
+            case GameState.MainMenu: menu.SetActive(true);
+                break;
+            case GameState.Build: build.SetActive(true);
+                break;
+            case GameState.Pause: pause.SetActive(true);
+                break;
+            case GameState.GameOver: lose.SetActive(true);
+                break;
+            case GameState.WinGame: win.SetActive(true);
+                break;
         }
     }
 }

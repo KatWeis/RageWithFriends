@@ -14,8 +14,12 @@ public class TestGrid : MonoBehaviour
 	//sprite
 	public Sprite sprite;
 	public Sprite block;
-	// camera
-	public Camera cam;
+    public Sprite floor;//floor sprite
+    public Sprite end;
+    public Sprite start;
+
+    // camera
+    public Camera cam;
 
 	// mouse position
 	Vector3 mousePos;
@@ -28,6 +32,9 @@ public class TestGrid : MonoBehaviour
 
     //current tool to use
     private Tool currentTool;
+
+    //current gamestate / screen the game is on
+    private GameState gameState;
 
 	// Use this for initialization
 	void Start () 
@@ -48,6 +55,8 @@ public class TestGrid : MonoBehaviour
 	{
         //get current tool
         currentTool = sM.CurrentTool;
+        //get current gameState
+        gameState = sM.GState;
 
         mousePos = UpdateMouse ();
 		currentTile = CurrentBox (mousePos);  //has issue if you click off grid since current tile is undefined
@@ -68,9 +77,24 @@ public class TestGrid : MonoBehaviour
 		GameObject current = rootN.GetContainingBox(mouse);
 		if (Input.GetMouseButtonDown (0)) 
 		{
-            Debug.Log(currentTool + "");
-			Place (current);
-			current.GetComponent<TestNode> ().Filled = true;
+            //debugging current tool
+            //Debug.Log(currentTool + "");
+
+            //determine what tool to use
+            if(currentTool == Tool.Remove)
+            {
+                Remove(current);
+            }
+            else if(currentTool == Tool.Move)
+            {
+                Move(current);
+            }
+            else if(currentTool == Tool.PlaceFloor || currentTool == Tool.PlaceEnd || currentTool == Tool.PlaceStart || currentTool == Tool.PlacePlat)
+            {
+                Place(current);
+                current.GetComponent<TestNode>().Filled = true;
+            }
+			
 		}
 
 		return current;
@@ -94,7 +118,44 @@ public class TestGrid : MonoBehaviour
 	// places a tile on a box
 	public void Place(GameObject current)
 	{
-		current.GetComponent<SpriteRenderer> ().sprite = block;
+        switch(currentTool)
+        {
+            case Tool.PlaceFloor: current.GetComponent<SpriteRenderer>().sprite = floor;
+                break;
+            case Tool.PlacePlat: current.GetComponent<SpriteRenderer>().sprite = block;
+                break;
+            case Tool.PlaceEnd: current.GetComponent<SpriteRenderer>().sprite = end;
+                break;
+            case Tool.PlaceStart: current.GetComponent<SpriteRenderer>().sprite = start;
+                break;
+        }
 	}
+
+    public void ClearLevel()
+    {
+        foreach (GameObject box in rootN.GetAllBoxes())
+        {
+            //set them all to white / no tint
+            box.GetComponent<SpriteRenderer>().color = Color.white;
+
+            //set all sprites to defaults
+            if(box.GetComponent<SpriteRenderer>().bounds.size.x < 10)
+            {
+                //box.GetComponent<SpriteRenderer>().sprite = sprite;
+            }
+            //box.GetComponent<SpriteRenderer>().sprite = sprite; /////////////////doesn't work because  get all boxes includes the ones containing smaller ones
+        }
+    }
+
+    private void Remove(GameObject current)
+    {
+        current.GetComponent<SpriteRenderer>().sprite = sprite;
+        current.GetComponent<TestNode>().Filled = false;
+    }
+
+    private void Move(GameObject current)
+    {
+
+    }
 
 }
