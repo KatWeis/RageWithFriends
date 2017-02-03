@@ -23,6 +23,12 @@ public class TestGrid : MonoBehaviour
 	// current selected tile
 	GameObject currentTile;
 
+    //reference to scenemanager script
+    private StateManager sM;
+
+    //current tool to use
+    private Tool currentTool;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -32,13 +38,19 @@ public class TestGrid : MonoBehaviour
 		rootN.Divide ();
 		mousePos = Vector3.zero;
 		currentTile = null;
+
+        //initialize script
+        sM = GameObject.Find("SceneManager").GetComponent<StateManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		mousePos = UpdateMouse ();
-		currentTile = CurrentBox (mousePos);
+        //get current tool
+        currentTool = sM.CurrentTool;
+
+        mousePos = UpdateMouse ();
+		currentTile = CurrentBox (mousePos);  //has issue if you click off grid since current tile is undefined
 		DrawTile (currentTile);
 	}
 
@@ -56,6 +68,7 @@ public class TestGrid : MonoBehaviour
 		GameObject current = rootN.GetContainingBox(mouse);
 		if (Input.GetMouseButtonDown (0)) 
 		{
+            Debug.Log(currentTool + "");
 			Place (current);
 			current.GetComponent<TestNode> ().Filled = true;
 		}

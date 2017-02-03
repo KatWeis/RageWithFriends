@@ -2,40 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    Build,
+    MainMenu,
+    Test,
+    Pause,
+    Play,
+    GameOver
+}
+
+public enum Tool
+{
+    PlaceFloor,
+    PlacePlat,
+    PlaceStart,
+    PlaceEnd,
+    Remove,
+    ColorChanger,
+    Move,
+    None
+}
+
 public class StateManager : MonoBehaviour
 {
-    public enum GameState
-    {
-        Build,
-        MainMenu,
-        Test,
-        Pause,
-        Play,
-        GameOver
-    }
 
-    public enum Tool
-    {
-        Place,
-        Remove,
-        ColorChanger,
-        Move,
-        None
-    }
 
     //fields
-    public GameState gameState = GameState.MainMenu; //set default to be main menu ---public for now, likely change later
-    public Tool currentTool = Tool.None; //set default to none ---public for now, likely change later
+    private GameState gameState; 
+    private Tool currentTool;
+
+    //properties
+    public GameState GState
+    {
+        get { return gameState; }
+    }
+    public Tool CurrentTool
+    {
+        get { return currentTool; }
+    }
 
     // Use this for initialization
     void Start ()
     {
-		
-	}
+        gameState = GameState.MainMenu; //set default to be main menu
+        currentTool = Tool.None; //set default to none
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        ////////////////////////////////temp
+        gameState = GameState.Build;
+
         //update the gamestate based on input
         UpdateState();
         //only allow switching of tools in build mode
@@ -142,7 +161,7 @@ public class StateManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.V))
         {
-            currentTool = Tool.Place;
+            currentTool = Tool.PlacePlat;
         }
         else if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -150,8 +169,40 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    public void OnGUI()
+    public void ToolChange(int toUse)
     {
-        //may be using canvas UI stuff instead...
+        switch(toUse)
+        {
+            case 1: currentTool = Tool.Move;
+                break;
+            case 2:
+                currentTool = Tool.PlaceFloor;
+                break;
+            case 3:
+                currentTool = Tool.PlaceEnd;
+                break;
+            case 4:
+                currentTool = Tool.PlacePlat;
+                break;
+            case 5:
+                currentTool = Tool.PlaceStart;
+                break;
+            case 6:
+                currentTool = Tool.Remove;
+                break;
+            case 7:
+                currentTool = Tool.ColorChanger;
+                break;
+        }
+    }
+
+    public void StateChange(int state)
+    {
+        switch (state)
+        {
+            case 1: gameState = GameState.Play;
+                break;
+            
+        }
     }
 }
