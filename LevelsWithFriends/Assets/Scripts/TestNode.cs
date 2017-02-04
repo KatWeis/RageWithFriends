@@ -18,6 +18,12 @@ public class TestNode : MonoBehaviour
 	// does this tile have something on it?
 	bool filled;
 
+    //is this node the spawn point?
+    bool isSpawn;
+
+    //is this tile the level goal?
+    bool isGoal;
+
 	// Properties
 	public float Width { get { return width; } }
 
@@ -30,8 +36,20 @@ public class TestNode : MonoBehaviour
 		set { filled = value; }
 	}
 
-	// Use this for initialization
-	void Start () 
+    public bool IsSpawn
+    {
+        get { return isSpawn;}
+        set { isSpawn = value; }
+    }
+
+    public bool IsGoal
+    {
+        get { return isGoal; }
+        set { isGoal = value; }
+    }
+
+    // Use this for initialization
+    void Start () 
 	{
 
 	}
@@ -48,6 +66,8 @@ public class TestNode : MonoBehaviour
 		divisions = new List<GameObject> (4);
 
 		filled = false;
+        isGoal = false;
+        isSpawn = false;
 	}
 	
 	// Update is called once per frame

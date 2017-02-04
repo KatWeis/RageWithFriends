@@ -108,6 +108,8 @@ public class TestGrid : MonoBehaviour
 				{
 					Place (current);
 					current.GetComponent<TestNode> ().Filled = true;
+
+					current.AddComponent<BoxCollider2D>();
 				}
             }
 			
@@ -140,9 +142,9 @@ public class TestGrid : MonoBehaviour
                 break;
             case Tool.PlacePlat: current.GetComponent<SpriteRenderer>().sprite = block;
                 break;
-            case Tool.PlaceEnd: current.GetComponent<SpriteRenderer>().sprite = end;
+            case Tool.PlaceEnd: current.GetComponent<SpriteRenderer>().sprite = end; current.GetComponent<TestNode>().IsGoal = true; current.tag = "LevelGoal";
                 break;
-            case Tool.PlaceStart: current.GetComponent<SpriteRenderer>().sprite = start;
+            case Tool.PlaceStart: current.GetComponent<SpriteRenderer>().sprite = start; current.GetComponent<TestNode>().IsSpawn = true; current.tag = "PlayerSpawn";
                 break;
         }
 	}
@@ -163,6 +165,7 @@ public class TestGrid : MonoBehaviour
     {
         current.GetComponent<SpriteRenderer>().sprite = sprite;
         current.GetComponent<TestNode>().Filled = false;
+        Destroy(current.GetComponent<Collider>());
     }
 
     private void Move(GameObject current)
@@ -172,6 +175,7 @@ public class TestGrid : MonoBehaviour
             //place down the selected tile
             current.GetComponent<SpriteRenderer>().sprite = moveTemp;
             current.GetComponent<TestNode>().Filled = true;
+            current.AddComponent<BoxCollider2D>();
             //reset the bool to track picking a tile to move
             moveSelected = false;
         }
