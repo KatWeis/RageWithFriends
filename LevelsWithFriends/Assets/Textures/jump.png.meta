@@ -1,15 +1,10 @@
 fileFormatVersion: 2
-guid: 43bdb9fee0cd5d147b8c91c2c3e4eeeb
-timeCreated: 1486177573
+guid: 58ca917ac5274d64599c2b5b38f49305
+timeCreated: 1486181307
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: spriteSheet_0
-    21300002: spriteSheet_1
-    21300004: spriteSheet_2
-    21300006: spriteSheet_3
-    21300008: spriteSheet_4
-    21300010: spriteSheet_5
+    21300000: jump_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -46,7 +41,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 150
+  spritePixelsToUnits: 160
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -84,78 +79,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: spriteSheet_0
+      name: jump_0
       rect:
         serializedVersion: 2
-        x: 47
-        y: 764
-        width: 172
-        height: 214
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: spriteSheet_1
-      rect:
-        serializedVersion: 2
-        x: 299
-        y: 783
-        width: 154
-        height: 210
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: spriteSheet_2
-      rect:
-        serializedVersion: 2
-        x: 532
-        y: 771
-        width: 169
-        height: 209
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: spriteSheet_3
-      rect:
-        serializedVersion: 2
-        x: 795
-        y: 798
-        width: 171
-        height: 201
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: spriteSheet_4
-      rect:
-        serializedVersion: 2
-        x: 41
-        y: 525
-        width: 167
-        height: 212
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: spriteSheet_5
-      rect:
-        serializedVersion: 2
-        x: 287
-        y: 524
-        width: 162
-        height: 218
+        x: 4
+        y: 24
+        width: 245
+        height: 204
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
