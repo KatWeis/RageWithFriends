@@ -65,8 +65,11 @@ public class TestGrid : MonoBehaviour
         currentTool = sM.CurrentTool;
         //get current gameState
         gameState = sM.GState;
-
-        mousePos = UpdateMouse ();
+		AnalyzeState (gameState);
+		if (gameState != GameState.Play)
+		{
+			mousePos = UpdateMouse ();
+		}
 		currentTile = CurrentBox (mousePos);  //has issue if you click off grid since current tile is undefined
 		DrawTile (currentTile);
 	}
@@ -91,16 +94,21 @@ public class TestGrid : MonoBehaviour
             //determine what tool to use
             if(currentTool == Tool.Remove)
             {
+				if (current != null) 
                 Remove(current);
             }
             else if(currentTool == Tool.Move)
             {
+				if (current != null) 
                 Move(current);
             }
-            else if(currentTool == Tool.PlaceFloor || currentTool == Tool.PlaceEnd || currentTool == Tool.PlaceStart || currentTool == Tool.PlacePlat)
+			else if(currentTool == Tool.PlaceFloor || currentTool == Tool.PlaceEnd || currentTool == Tool.PlaceStart || currentTool == Tool.PlacePlat)
             {
-                Place(current);
-                current.GetComponent<TestNode>().Filled = true;
+				if (current != null) 
+				{
+					Place (current);
+					current.GetComponent<TestNode> ().Filled = true;
+				}
             }
 			
 		}
@@ -147,11 +155,7 @@ public class TestGrid : MonoBehaviour
             box.GetComponent<SpriteRenderer>().color = Color.white;
 
             //set all sprites to defaults
-            if(box.GetComponent<SpriteRenderer>().bounds.size.x < 10)
-            {
-                //box.GetComponent<SpriteRenderer>().sprite = sprite;
-            }
-            //box.GetComponent<SpriteRenderer>().sprite = sprite; /////////////////doesn't work because  get all boxes includes the ones containing smaller ones
+			box.GetComponent<TestNode>().Reset();
         }
     }
 
@@ -182,4 +186,65 @@ public class TestGrid : MonoBehaviour
         }
     }
 
+	public void AnalyzeState(GameState gs)
+	{
+		switch (gameState)
+		{
+		case GameState.MainMenu:
+			{
+				foreach (GameObject box in rootN.GetAllBoxes()) 
+				{
+					box.SetActive (false);
+				}
+			}
+			break;
+		case GameState.Build:
+			{
+				foreach (GameObject box in rootN.GetAllBoxes()) 
+				{
+					box.SetActive (true);
+				}
+			}
+			break;
+		case GameState.Play:
+			{
+				foreach (GameObject box in rootN.GetAllBoxes()) 
+				{
+					if (box.GetComponent<TestNode> ().Filled == false)
+					{
+						box.SetActive (false);
+					} 
+					else 
+					{
+						box.SetActive (true);
+					}
+				}
+			}
+			break;
+		case GameState.Pause:
+			{
+				foreach (GameObject box in rootN.GetAllBoxes()) 
+				{
+					box.SetActive (false);
+				}
+			}
+			break;
+		case GameState.GameOver:
+			{
+				foreach (GameObject box in rootN.GetAllBoxes()) 
+				{
+					box.SetActive (false);
+				}
+			}
+			break;
+		case GameState.WinGame:
+		{
+			foreach (GameObject box in rootN.GetAllBoxes()) 
+			{
+				box.SetActive (false);
+			}
+		}
+		break;
+	}
+	}
 }
