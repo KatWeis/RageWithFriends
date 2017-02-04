@@ -26,4 +26,13 @@ public class Player : MonoBehaviour
             haveSpawned = true;
         }
 	}
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "LevelGoal")
+        {
+            sM.GState = GameState.WinGame;
+            //Debug.Log("win?");
+        }
+    }
 }

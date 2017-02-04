@@ -44,6 +44,7 @@ public class StateManager : MonoBehaviour
     public GameState GState
     {
         get { return gameState; }
+        set { gameState = value; }
     }
     public Tool CurrentTool
     {
@@ -85,25 +86,9 @@ public class StateManager : MonoBehaviour
         //allow switching between states, start with it being triggered by keyboard input
         switch (gameState)
         {
-            case GameState.MainMenu:
-                {
-                    if(Input.GetKeyDown(KeyCode.P))
-                    {
-                        gameState = GameState.Play;
-                    }
-                    else if(Input.GetKeyDown(KeyCode.B))
-                    {
-                        gameState = GameState.Build;
-                    }
-                }
-                break;
             case GameState.Build:
                 {
-                    if (Input.GetKeyDown(KeyCode.T))
-                    {
-                        gameState = GameState.Test;
-                    }
-                    else if (Input.GetKeyDown(KeyCode.Escape))
+                    if (Input.GetKeyDown(KeyCode.Escape))
                     {
                         gameState = GameState.MainMenu;
                     }
@@ -111,11 +96,7 @@ public class StateManager : MonoBehaviour
                 break;
             case GameState.Play:
                 {
-                    if (Input.GetKeyDown(KeyCode.O))////////////////////placeholder for dying/losing all lives
-                    {
-                        gameState = GameState.GameOver;
-                    }
-                    else if (Input.GetKeyDown(KeyCode.Escape))
+                    if (Input.GetKeyDown(KeyCode.Escape))
                     {
                         gameState = GameState.Pause;
                     }
@@ -133,25 +114,9 @@ public class StateManager : MonoBehaviour
                     }
                 }
                 break;
-            case GameState.Test:
-                {
-                    if (Input.GetKeyDown(KeyCode.B))//////////////no sure exactly how this would work, ability to go from test to build, but should it also go to main menu or play?
-                    {
-                        gameState = GameState.Build;
-                    }
-                    /*else if (Input.GetKeyDown(KeyCode.Escape))
-                    {
-                        gameState = GameState.MainMenu;
-                    }*/
-                }
-                break;
             case GameState.GameOver:
                 {
-                    if (Input.GetKeyDown(KeyCode.P))//resets level (i assume)
-                    {
-                        gameState = GameState.Play;
-                    }
-                    else if (Input.GetKeyDown(KeyCode.Escape))
+                    if (Input.GetKeyDown(KeyCode.Escape))
                     {
                         gameState = GameState.MainMenu;
                     }
