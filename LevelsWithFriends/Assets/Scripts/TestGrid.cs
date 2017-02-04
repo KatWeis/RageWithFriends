@@ -91,7 +91,7 @@ public class TestGrid : MonoBehaviour
 	{
 		// find the containing box
 		GameObject current = rootN.GetContainingBox(mouse);
-		if (Input.GetMouseButtonDown (0)) 
+		if (Input.GetMouseButton (0)) 
 		{
             //debugging current tool
             //Debug.Log(currentTool + "");
