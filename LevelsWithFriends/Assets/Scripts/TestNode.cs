@@ -154,4 +154,13 @@ public class TestNode : MonoBehaviour
 
 		return boxes;
 	}
+
+	public void Reset()
+	{
+		if(filled)
+		{
+			gameObject.GetComponent<SpriteRenderer>().sprite = GameObject.Find("Test").GetComponent<TestGrid>().sprite;
+			filled = false;
+		}
+	}
 }
