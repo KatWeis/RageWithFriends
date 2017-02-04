@@ -61,7 +61,7 @@ public class StateManager : MonoBehaviour
 	void Update ()
     {
         ////////////////////////////////temp
-        gameState = GameState.Build;
+        //gameState = GameState.Build;
 
         //update the gamestate based on input
         UpdateState();
@@ -216,7 +216,11 @@ public class StateManager : MonoBehaviour
                 break;
             case 2: gameState = GameState.Build;
                 break;
-            
+            case 3: gameState = GameState.MainMenu;
+                break;
+            case 4: gameState = GameState.Pause;
+                break;
+
         }
     }
 

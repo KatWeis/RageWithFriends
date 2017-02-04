@@ -15,8 +15,13 @@ public class TestGrid : MonoBehaviour
 	public Sprite sprite;
 	public Sprite block;
     public Sprite floor;//floor sprite
-    public Sprite end;
-    public Sprite start;
+    public Sprite end;//sprite for goal of the level
+    public Sprite start;//sprite for where the player starts the level
+    //sprite to temporarily store the moved tile
+    private Sprite moveTemp;
+
+    //booleans
+    private bool moveSelected;//determines if the user has selected a tile to move
 
     // camera
     public Camera cam;
@@ -48,6 +53,9 @@ public class TestGrid : MonoBehaviour
 
         //initialize script
         sM = GameObject.Find("SceneManager").GetComponent<StateManager>();
+
+        //initialize move xelected to false
+        moveSelected = false;
 	}
 	
 	// Update is called once per frame
@@ -155,7 +163,23 @@ public class TestGrid : MonoBehaviour
 
     private void Move(GameObject current)
     {
-
+        if(moveSelected == true)
+        {
+            //place down the selected tile
+            current.GetComponent<SpriteRenderer>().sprite = moveTemp;
+            current.GetComponent<TestNode>().Filled = true;
+            //reset the bool to track picking a tile to move
+            moveSelected = false;
+        }
+        else
+        {
+            //store the sprite
+            moveTemp = current.GetComponent<SpriteRenderer>().sprite;
+            //remove that tile from the current box
+            Remove(current);
+            //mark that you have selected a tile to move
+            moveSelected = true;
+        }
     }
 
 }
