@@ -40,6 +40,8 @@ public class StateManager : MonoBehaviour
     public GameObject lose;
     public GameObject win;
 
+	// character
+	private GameObject character;
     //properties
     public GameState GState
     {
@@ -56,6 +58,7 @@ public class StateManager : MonoBehaviour
     {
         gameState = GameState.MainMenu; //set default to be main menu
         currentTool = Tool.None; //set default to none
+		character = GameObject.Find ("Character");
     }
 	
 	// Update is called once per frame
@@ -83,6 +86,10 @@ public class StateManager : MonoBehaviour
 
     private void UpdateState()
     {
+		if (gameState != GameState.Play)
+			character.SetActive (false);
+		else
+			character.SetActive (true);
         //allow switching between states, start with it being triggered by keyboard input
         switch (gameState)
         {

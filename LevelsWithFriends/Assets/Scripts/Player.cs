@@ -25,6 +25,12 @@ public class Player : MonoBehaviour
             gameObject.transform.position = GameObject.FindWithTag("PlayerSpawn").transform.position;
             haveSpawned = true;
         }
+
+		if (transform.position.y < -44) 
+		{
+			sM.GState = GameState.GameOver;
+			haveSpawned = false;
+		}
 	}
 
     void OnCollisionEnter2D(Collision2D col)
