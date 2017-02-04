@@ -10,6 +10,11 @@ public class Player : MonoBehaviour
     //ref to statemanager script
     private StateManager sM;
 
+	public bool HaveSpawned
+	{
+		get { return haveSpawned; }
+		set { haveSpawned = value; }
+	}
 	// Use this for initialization
 	void Start ()
     {
@@ -38,7 +43,8 @@ public class Player : MonoBehaviour
         if (col.gameObject.tag == "LevelGoal")
         {
             sM.GState = GameState.WinGame;
-            //Debug.Log("win?");
+			gameObject.transform.position = GameObject.FindWithTag("PlayerSpawn").transform.position;
+			haveSpawned = false;
         }
     }
 }

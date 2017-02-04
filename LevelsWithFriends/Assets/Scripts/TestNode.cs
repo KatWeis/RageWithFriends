@@ -160,6 +160,10 @@ public class TestNode : MonoBehaviour
 		if(filled)
 		{
 			gameObject.GetComponent<SpriteRenderer>().sprite = GameObject.Find("Test").GetComponent<TestGrid>().sprite;
+			if (gameObject.tag == "LevelGoal" || gameObject.tag == "PlayerSpawn") 
+			{
+				gameObject.tag = "Untagged";
+			}
 			filled = false;
 		}
 	}

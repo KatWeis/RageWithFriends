@@ -11,6 +11,9 @@ public class TestGrid : MonoBehaviour
 	// prefab
 	public GameObject prefab;
 
+	// character
+	Player player;
+
 	//sprite
 	public Sprite sprite;
 	public Sprite block;
@@ -56,6 +59,8 @@ public class TestGrid : MonoBehaviour
 
         //initialize move xelected to false
         moveSelected = false;
+
+		player = GameObject.Find ("Character").GetComponent<Player> ();
 	}
 	
 	// Update is called once per frame
@@ -108,7 +113,7 @@ public class TestGrid : MonoBehaviour
 				{
 					Place (current);
 					current.GetComponent<TestNode> ().Filled = true;
-
+					if(current.tag != "PlayerSpawn")
 					current.AddComponent<BoxCollider2D>();
 				}
             }
@@ -159,11 +164,17 @@ public class TestGrid : MonoBehaviour
             //set all sprites to defaults
 			box.GetComponent<TestNode>().Reset();
         }
+
+		player.HaveSpawned = false;
     }
 
     private void Remove(GameObject current)
     {
         current.GetComponent<SpriteRenderer>().sprite = sprite;
+		if (current.tag == "LevelGoal" || current.tag == "PlayerSpawn") 
+		{
+			current.tag = "Untagged";
+		}
         current.GetComponent<TestNode>().Filled = false;
         Destroy(current.GetComponent<Collider>());
     }
@@ -178,6 +189,14 @@ public class TestGrid : MonoBehaviour
             current.AddComponent<BoxCollider2D>();
             //reset the bool to track picking a tile to move
             moveSelected = false;
+			if (moveTemp == end) 
+			{
+				current.tag = "LevelGoal";
+			}
+			if (moveTemp == start) 
+			{
+				current.tag = "PlayerSpawn";
+			}
         }
         else
         {
