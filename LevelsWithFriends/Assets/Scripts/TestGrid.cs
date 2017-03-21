@@ -25,6 +25,7 @@ public class TestGrid : MonoBehaviour
 
     //booleans
     private bool moveSelected;//determines if the user has selected a tile to move
+    private bool placed;
 
     // camera
     public Camera cam;
@@ -59,6 +60,7 @@ public class TestGrid : MonoBehaviour
 
         //initialize move xelected to false
         moveSelected = false;
+        placed = false;
 
 		player = GameObject.Find ("Character").GetComponent<Player> ();
 	}
@@ -71,6 +73,7 @@ public class TestGrid : MonoBehaviour
         //get current gameState
         gameState = sM.GState;
 		AnalyzeState (gameState);
+        //update the mouse position as long as the game isn't in play mode
 		if (gameState != GameState.Play)
 		{
 			mousePos = UpdateMouse ();
@@ -96,7 +99,49 @@ public class TestGrid : MonoBehaviour
             if (current != null)//makes sure that it is a node
                 Move(current);
         }
-		if (Input.GetMouseButton (0)) 
+        if (Input.GetMouseButtonDown(0))
+        {
+            switch (currentTool)
+            {
+                case Tool.PlaceFloor:
+                    {
+                        //if the current block is already the same as the place tool, remove it
+                        if (current.GetComponent<SpriteRenderer>().sprite == floor)
+                        {
+                            Remove(current); placed = true;
+                        }
+                    }
+                    break;
+                case Tool.PlacePlat:
+                    {
+                        //if the current block is already the same as the place tool, remove it
+                        if (current.GetComponent<SpriteRenderer>().sprite == block)
+                        {
+                            Remove(current); placed = true;
+                        }
+                    }
+                    break;
+                case Tool.PlaceEnd:
+                    {
+                        //if the current block is already the same as the place tool, remove it
+                        if (current.GetComponent<SpriteRenderer>().sprite == end)
+                        {
+                            Remove(current); placed = true;
+                        }
+                    }
+                    break;
+                case Tool.PlaceStart:
+                    {
+                        //if the current block is already the same as the place tool, remove it
+                        if (current.GetComponent<SpriteRenderer>().sprite == start)
+                        {
+                            Remove(current); placed = true;
+                        }
+                    }
+                    break;
+            }
+        }
+        if (Input.GetMouseButton (0) && placed == false) 
 		{
             //debugging current tool
             //Debug.Log(currentTool + "");
@@ -122,8 +167,13 @@ public class TestGrid : MonoBehaviour
 					current.AddComponent<BoxCollider2D>();
 				}
             }
-			
 		}
+        if(Input.GetMouseButtonUp(0))
+        {
+            //if the user releases button reset placed
+            placed = false;
+        }
+        
 
 		return current;
 	}
@@ -175,12 +225,15 @@ public class TestGrid : MonoBehaviour
 
     private void Remove(GameObject current)
     {
+        //change the tile's sprite to empty
         current.GetComponent<SpriteRenderer>().sprite = sprite;
+        //make sure that all tags are removed so that they don't have any special properties
 		if (current.tag == "LevelGoal" || current.tag == "PlayerSpawn") 
 		{
 			current.tag = "Untagged";
 		}
         current.GetComponent<TestNode>().Filled = false;
+        //get rid of the collider on this node
         Destroy(current.GetComponent<Collider>());
     }
 
@@ -195,6 +248,7 @@ public class TestGrid : MonoBehaviour
             current.AddComponent<BoxCollider2D>();
             //reset the bool to track picking a tile to move
             moveSelected = false;
+            //make sure the correct tag is implemented
 			if (moveTemp == end) 
 			{
 				current.tag = "LevelGoal";
