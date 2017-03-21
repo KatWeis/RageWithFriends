@@ -91,6 +91,11 @@ public class TestGrid : MonoBehaviour
 	{
 		// find the containing box
 		GameObject current = rootN.GetContainingBox(mouse);
+        if(currentTool == Tool.Move && Input.GetMouseButtonDown(0))
+        {
+            if (current != null)//makes sure that it is a node
+                Move(current);
+        }
 		if (Input.GetMouseButton (0)) 
 		{
             //debugging current tool
@@ -102,11 +107,11 @@ public class TestGrid : MonoBehaviour
 				if (current != null) 
                 Remove(current);
             }
-            else if(currentTool == Tool.Move)
+            /*else if(currentTool == Tool.Move)
             {
 				if (current != null) 
                 Move(current);
-            }
+            }*/
 			else if(currentTool == Tool.PlaceFloor || currentTool == Tool.PlaceEnd || currentTool == Tool.PlaceStart || currentTool == Tool.PlacePlat)
             {
 				if (current != null) 
@@ -181,7 +186,8 @@ public class TestGrid : MonoBehaviour
 
     private void Move(GameObject current)
     {
-        if(moveSelected == true)
+        //Debug.Log("moved");
+        if (moveSelected == true)
         {
             //place down the selected tile
             current.GetComponent<SpriteRenderer>().sprite = moveTemp;
@@ -198,7 +204,7 @@ public class TestGrid : MonoBehaviour
 				current.tag = "PlayerSpawn";
 			}
         }
-        else
+        else if(current.GetComponent<TestNode>().Filled == true)//make sure that the node isn't empty before moving it
         {
             //store the sprite
             moveTemp = current.GetComponent<SpriteRenderer>().sprite;
